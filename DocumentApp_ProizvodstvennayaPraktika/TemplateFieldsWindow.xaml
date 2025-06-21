@@ -1,0 +1,37 @@
+﻿<Window x:Class="DocumentApp_ProizvodstvennayaPraktika.TemplateFieldsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Управление полями шаблона" Height="450" Width="600">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Заголовок -->
+        <TextBlock Grid.Row="0" Text="{Binding TemplateName}" FontWeight="Bold"
+                   Margin="0 0 0 10"/>
+
+        <!-- Список полей -->
+        <DataGrid Grid.Row="1" x:Name="FieldsGrid" AutoGenerateColumns="False"
+                  CanUserAddRows="False" CanUserDeleteRows="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Название" Binding="{Binding FieldLabel}" Width="*"/>
+                <DataGridTextColumn Header="Имя поля" Binding="{Binding FieldName}" Width="*"/>
+                <DataGridComboBoxColumn Header="Тип" 
+                                       SelectedItemBinding="{Binding FieldType}"
+                                       ItemsSource="{Binding FieldTypes}" Width="*"/>
+                <DataGridCheckBoxColumn Header="Обязательное" Binding="{Binding IsRequired}" Width="Auto"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Панель кнопок -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 10 0 0">
+            <Button Content="Добавить поле" Width="120" Margin="5" Click="AddField_Click"/>
+            <Button Content="Удалить поле" Width="120" Margin="5" Click="RemoveField_Click"/>
+            <Button Content="Сохранить" Width="100" Margin="5" Click="Save_Click"/>
+            <Button Content="Отмена" Width="100" Margin="5" Click="Cancel_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

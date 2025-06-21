@@ -1,0 +1,79 @@
+﻿<Page x:Class="DocumentApp_ProizvodstvennayaPraktika.Pages.LawyerBasePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:DocumentApp_ProizvodstvennayaPraktika.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Панель юриста" 
+      Style="{StaticResource PageStyle}">
+    <Page.Resources>
+        <ResourceDictionary Source="../StyleDictionary.xaml"/>
+    </Page.Resources>
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Панель управления -->
+        <Border Grid.Row="0" Background="White" CornerRadius="5" Padding="10"
+                BorderBrush="#BDC3C7" BorderThickness="1">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Content="Управление шаблонами" Style="{StaticResource ButtonStyle}" 
+                        Margin="5" Click="ManageTemplates_Click"/>
+                <Button Content="Управление клиентами" Style="{StaticResource ButtonStyle}" 
+                        Margin="5" Click="ManageClients_Click"/>
+                <Button Content="Все договоры" Style="{StaticResource ButtonStyle}" 
+                        Margin="5" Click="ViewAllContracts_Click"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Статистика -->
+        <Border Grid.Row="1" Background="White" CornerRadius="5" Margin="0 10 0 0"
+                BorderBrush="#BDC3C7" BorderThickness="1" Padding="10">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="Статистика" Style="{StaticResource LinkTextBlockStyle}"
+                           FontSize="18" FontWeight="Bold" HorizontalAlignment="Center"/>
+
+                <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" 
+                            VerticalAlignment="Center">
+                    <Border Background="#3498DB" CornerRadius="5" Padding="20" Margin="10">
+                        <StackPanel>
+                            <TextBlock Text="Активных договоров" Foreground="White" 
+                                       FontSize="16" HorizontalAlignment="Center"/>
+                            <TextBlock x:Name="ActiveContractsCount" Text="0" Foreground="White" 
+                                       FontSize="24" FontWeight="Bold" HorizontalAlignment="Center"/>
+                        </StackPanel>
+                        
+                    </Border>
+
+                    <Border Background="#27AE60" CornerRadius="5" Padding="20" Margin="10">
+                        <StackPanel>
+                            <TextBlock Text="Всего клиентов" Foreground="White" 
+                                       FontSize="16" HorizontalAlignment="Center"/>
+                            <TextBlock x:Name="ClientsCount" Text="0" Foreground="White" 
+                                       FontSize="24" FontWeight="Bold" HorizontalAlignment="Center"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Background="#E67E22" CornerRadius="5" Padding="20" Margin="10">
+                        <StackPanel>
+                            <TextBlock Text="Шаблонов" Foreground="White" 
+                                       FontSize="16" HorizontalAlignment="Center"/>
+                            <TextBlock x:Name="TemplatesCount" Text="0" Foreground="White" 
+                                       FontSize="24" FontWeight="Bold" HorizontalAlignment="Center"/>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</Page>

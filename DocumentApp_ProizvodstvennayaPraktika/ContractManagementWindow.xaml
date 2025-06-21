@@ -1,0 +1,111 @@
+﻿<Window x:Class="DocumentApp_ProizvodstvennayaPraktika.ContractManagementWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DocumentApp_ProizvodstvennayaPraktika"
+        mc:Ignorable="d"
+        Title="Все договоры" Height="600" Width="900"
+        Background="#ECF0F1">
+    <Window.Resources>
+        <ResourceDictionary Source="StyleDictionary.xaml"/>
+    </Window.Resources>
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Заголовок и панель поиска -->
+        <Border Grid.Row="0" Background="White" CornerRadius="5" Padding="10"
+                BorderBrush="#BDC3C7" BorderThickness="1">
+            <StackPanel>
+                <TextBlock Text="Все договоры" 
+                           FontSize="20" FontWeight="Bold" Foreground="#2C3E50"
+                           HorizontalAlignment="Center" Margin="0 0 0 10"/>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBox x:Name="SearchBox" Width="300" Style="{StaticResource TextBoxStyle}"
+                             Margin="5" Tag="Поиск по названию или клиенту..." TextChanged="SearchBox_TextChanged"/>
+
+                    <ComboBox x:Name="StatusFilter" Width="150" Style="{StaticResource ComboBoxStyle}"
+                              Margin="5" SelectedIndex="0" SelectionChanged="StatusFilter_SelectionChanged">
+                        <ComboBoxItem Content="Все статусы"/>
+                        <ComboBoxItem Content="Draft"/>
+                        <ComboBoxItem Content="Completed"/>
+                        <ComboBoxItem Content="Archived"/>
+                    </ComboBox>
+
+                    <Button Content="Обновить" Style="{StaticResource ButtonStyle}" 
+                            Margin="5" Click="RefreshButton_Click"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+        <!-- Список договоров -->
+        <Border Grid.Row="1" Background="White" CornerRadius="5" Margin="0 10 0 0"
+                BorderBrush="#BDC3C7" BorderThickness="1" Padding="10">
+            <DataGrid x:Name="ContractsGrid" AutoGenerateColumns="False" 
+          SelectionMode="Single" 
+          HeadersVisibility="Column"
+          CanUserAddRows="False"
+          CanUserDeleteRows="False"
+          Background="White">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="ID" Binding="{Binding ContractId}" Width="Auto"/>
+                    <DataGridTextColumn Header="Название" Binding="{Binding ContractTemplates.TemplateName}" Width="*"/>
+                    <DataGridTextColumn Header="Клиент" Binding="{Binding Users.FullName}" Width="*"/>
+                    <DataGridTextColumn Header="Дата" Binding="{Binding ContractDate, StringFormat={}{0:dd.MM.yyyy}}" Width="Auto"/>
+                    <DataGridTextColumn Header="Статус" Binding="{Binding Status}" Width="Auto">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="HorizontalAlignment" Value="Center"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Status}" Value="Draft">
+                                        <Setter Property="Foreground" Value="#E67E22"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Status}" Value="Completed">
+                                        <Setter Property="Foreground" Value="#27AE60"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Status}" Value="Archived">
+                                        <Setter Property="Foreground" Value="#95A5A6"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTemplateColumn Width="Auto">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="Просмотр" Style="{StaticResource ButtonStyle}" 
+                            Margin="2" Padding="5" Click="ViewContract_Click"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <!-- Новая колонка для кнопки удаления -->
+                    <DataGridTemplateColumn Width="Auto">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="Удалить" 
+                            Style="{StaticResource ButtonStyle}" 
+                            Background="#FFE74C3C"
+                            Foreground="White"
+                            Margin="2" 
+                            Padding="5" 
+                            Click="DeleteContract_Click"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Border>
+
+        <!-- Панель кнопок -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 10 0 0">
+            <Button Content="Назад" Style="{StaticResource ButtonStyle}" Margin="5" Click="BackButton_Click"/>
+            <Button Content="Закрыть" Style="{StaticResource ButtonStyle}" Margin="5" Click="Close_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

@@ -1,0 +1,54 @@
+﻿<Window x:Class="DocumentApp_ProizvodstvennayaPraktika.ExportWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DocumentApp_ProizvodstvennayaPraktika"
+        mc:Ignorable="d"
+        Title="ExportWindow" Height="450" Width="800">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Заголовок -->
+        <TextBlock Grid.Row="0" Text="Экспорт и отправка договора" 
+               FontSize="18" FontWeight="Bold" Foreground="#2C3E50"
+               Margin="0 0 0 10" HorizontalAlignment="Center"/>
+
+        <!-- Настройки экспорта -->
+        <Border Grid.Row="1" Background="White" CornerRadius="5" Padding="10"
+            BorderBrush="#BDC3C7" BorderThickness="1">
+            <StackPanel>
+                <Label Content="Формат экспорта:"/>
+                <ComboBox Style="{StaticResource ComboBoxStyle}" Margin="0 0 0 10">
+                    <ComboBoxItem Content="Word (.docx)" IsSelected="True"/>
+                    <ComboBoxItem Content="PDF (.pdf)"/>
+                </ComboBox>
+
+                <Label Content="Отправить по:"/>
+                <StackPanel Orientation="Horizontal" Margin="0 5 0 10">
+                    <CheckBox Content="Email" Margin="0 0 10 0" VerticalAlignment="Center"/>
+                    <CheckBox Content="Telegram" VerticalAlignment="Center"/>
+                </StackPanel>
+
+                <Label Content="Email получателя:"/>
+                <TextBox Style="{StaticResource TextBoxStyle}" Margin="0 0 0 10"/>
+
+                <Label Content="Комментарий:"/>
+                <TextBox Style="{StaticResource TextBoxStyle}" AcceptsReturn="True" 
+                     Height="60" VerticalScrollBarVisibility="Auto"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Панель кнопок -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 10 0 0">
+            <Button Content="Экспортировать и отправить" Style="{StaticResource ButtonStyle}" 
+                Margin="5" Click="ExportAndSend_Click"/>
+            <Button Content="Отмена" Style="{StaticResource ButtonStyle}" 
+                Margin="5" Click="CancelButton_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

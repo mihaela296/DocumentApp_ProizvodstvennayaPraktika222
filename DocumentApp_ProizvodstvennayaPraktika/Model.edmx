@@ -1,0 +1,716 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище Model" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ClientContracts">
+          <Key>
+            <PropertyRef Name="ContractId" />
+          </Key>
+          <Property Name="ContractId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TemplateId" Type="int" Nullable="false" />
+          <Property Name="ClientId" Type="int" Nullable="false" />
+          <Property Name="LawyerId" Type="int" />
+          <Property Name="ContractData" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ContractNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="ContractDate" Type="datetime" />
+          <Property Name="CreatedAt" Type="datetime" />
+          <Property Name="UpdatedAt" Type="datetime" />
+          <Property Name="Status" Type="nvarchar" MaxLength="50" />
+          <Property Name="Notes" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="ClientDetails">
+          <Key>
+            <PropertyRef Name="ClientDetailId" />
+          </Key>
+          <Property Name="ClientDetailId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="PassportNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="PassportIssuedBy" Type="nvarchar" MaxLength="200" />
+          <Property Name="PassportIssueDate" Type="date" />
+          <Property Name="Address" Type="nvarchar" MaxLength="200" />
+          <Property Name="Organization" Type="nvarchar" MaxLength="100" />
+          <Property Name="Position" Type="nvarchar" MaxLength="100" />
+          <Property Name="BankDetails" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="ContractCategories">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+          </Key>
+          <Property Name="CategoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="ContractHistory">
+          <Key>
+            <PropertyRef Name="HistoryId" />
+          </Key>
+          <Property Name="HistoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ContractId" Type="int" Nullable="false" />
+          <Property Name="ChangedBy" Type="int" Nullable="false" />
+          <Property Name="ChangeDate" Type="datetime" />
+          <Property Name="ChangeDescription" Type="nvarchar" MaxLength="500" />
+          <Property Name="OldData" Type="nvarchar(max)" />
+          <Property Name="NewData" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="ContractTemplates">
+          <Key>
+            <PropertyRef Name="TemplateId" />
+          </Key>
+          <Property Name="TemplateId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TemplateName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="500" />
+          <Property Name="Content" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="CreatedBy" Type="int" Nullable="false" />
+          <Property Name="CreatedAt" Type="datetime" />
+          <Property Name="UpdatedAt" Type="datetime" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="CategoryId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="RoleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="TemplateFields">
+          <Key>
+            <PropertyRef Name="FieldId" />
+          </Key>
+          <Property Name="FieldId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TemplateId" Type="int" Nullable="false" />
+          <Property Name="FieldName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="FieldLabel" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="FieldType" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="IsRequired" Type="bit" />
+          <Property Name="DefaultValue" Type="nvarchar(max)" />
+          <Property Name="OrderIndex" Type="int" />
+          <Property Name="ValidationPattern" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="PasswordSalt" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="FullName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="RoleId" Type="int" Nullable="false" />
+          <Property Name="CreatedAt" Type="datetime" />
+          <Property Name="LastLogin" Type="datetime" />
+          <Property Name="IsActive" Type="bit" />
+        </EntityType>
+        <Association Name="FK_ClientContracts_Client">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="ClientContracts" Type="Self.ClientContracts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="ClientContracts">
+              <PropertyRef Name="ClientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ClientContracts_ContractTemplates">
+          <End Role="ContractTemplates" Type="Self.ContractTemplates" Multiplicity="1" />
+          <End Role="ClientContracts" Type="Self.ClientContracts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContractTemplates">
+              <PropertyRef Name="TemplateId" />
+            </Principal>
+            <Dependent Role="ClientContracts">
+              <PropertyRef Name="TemplateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ClientContracts_Lawyer">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="ClientContracts" Type="Self.ClientContracts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="ClientContracts">
+              <PropertyRef Name="LawyerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ClientDetails_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="ClientDetails" Type="Self.ClientDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="ClientDetails">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ContractHistory_ClientContracts">
+          <End Role="ClientContracts" Type="Self.ClientContracts" Multiplicity="1" />
+          <End Role="ContractHistory" Type="Self.ContractHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClientContracts">
+              <PropertyRef Name="ContractId" />
+            </Principal>
+            <Dependent Role="ContractHistory">
+              <PropertyRef Name="ContractId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ContractHistory_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="ContractHistory" Type="Self.ContractHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="ContractHistory">
+              <PropertyRef Name="ChangedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ContractTemplates_Categories">
+          <End Role="ContractCategories" Type="Self.ContractCategories" Multiplicity="1" />
+          <End Role="ContractTemplates" Type="Self.ContractTemplates" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContractCategories">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="ContractTemplates">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ContractTemplates_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="ContractTemplates" Type="Self.ContractTemplates" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="ContractTemplates">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TemplateFields_ContractTemplates">
+          <End Role="ContractTemplates" Type="Self.ContractTemplates" Multiplicity="1" />
+          <End Role="TemplateFields" Type="Self.TemplateFields" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContractTemplates">
+              <PropertyRef Name="TemplateId" />
+            </Principal>
+            <Dependent Role="TemplateFields">
+              <PropertyRef Name="TemplateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Roles">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище ModelContainer">
+          <EntitySet Name="ClientContracts" EntityType="Self.ClientContracts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ClientDetails" EntityType="Self.ClientDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ContractCategories" EntityType="Self.ContractCategories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ContractHistory" EntityType="Self.ContractHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ContractTemplates" EntityType="Self.ContractTemplates" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TemplateFields" EntityType="Self.TemplateFields" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_ClientContracts_Client" Association="Self.FK_ClientContracts_Client">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="ClientContracts" EntitySet="ClientContracts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClientContracts_ContractTemplates" Association="Self.FK_ClientContracts_ContractTemplates">
+            <End Role="ContractTemplates" EntitySet="ContractTemplates" />
+            <End Role="ClientContracts" EntitySet="ClientContracts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClientContracts_Lawyer" Association="Self.FK_ClientContracts_Lawyer">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="ClientContracts" EntitySet="ClientContracts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClientDetails_Users" Association="Self.FK_ClientDetails_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="ClientDetails" EntitySet="ClientDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ContractHistory_ClientContracts" Association="Self.FK_ContractHistory_ClientContracts">
+            <End Role="ClientContracts" EntitySet="ClientContracts" />
+            <End Role="ContractHistory" EntitySet="ContractHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ContractHistory_Users" Association="Self.FK_ContractHistory_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="ContractHistory" EntitySet="ContractHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ContractTemplates_Categories" Association="Self.FK_ContractTemplates_Categories">
+            <End Role="ContractCategories" EntitySet="ContractCategories" />
+            <End Role="ContractTemplates" EntitySet="ContractTemplates" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ContractTemplates_Users" Association="Self.FK_ContractTemplates_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="ContractTemplates" EntitySet="ContractTemplates" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TemplateFields_ContractTemplates" Association="Self.FK_TemplateFields_ContractTemplates">
+            <End Role="ContractTemplates" EntitySet="ContractTemplates" />
+            <End Role="TemplateFields" EntitySet="TemplateFields" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Roles" Association="Self.FK_Users_Roles">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ClientContracts">
+          <Key>
+            <PropertyRef Name="ContractId" />
+          </Key>
+          <Property Name="ContractId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TemplateId" Type="Int32" Nullable="false" />
+          <Property Name="ClientId" Type="Int32" Nullable="false" />
+          <Property Name="LawyerId" Type="Int32" />
+          <Property Name="ContractData" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ContractNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ContractDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedAt" Type="DateTime" Precision="3" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Notes" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_ClientContracts_Client" FromRole="ClientContracts" ToRole="Users" />
+          <NavigationProperty Name="ContractTemplates" Relationship="Self.FK_ClientContracts_ContractTemplates" FromRole="ClientContracts" ToRole="ContractTemplates" />
+          <NavigationProperty Name="Users1" Relationship="Self.FK_ClientContracts_Lawyer" FromRole="ClientContracts" ToRole="Users" />
+          <NavigationProperty Name="ContractHistory" Relationship="Self.FK_ContractHistory_ClientContracts" FromRole="ClientContracts" ToRole="ContractHistory" />
+        </EntityType>
+        <EntityType Name="ClientDetails">
+          <Key>
+            <PropertyRef Name="ClientDetailId" />
+          </Key>
+          <Property Name="ClientDetailId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="PassportNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PassportIssuedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="PassportIssueDate" Type="DateTime" Precision="0" />
+          <Property Name="Address" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Organization" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Position" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="BankDetails" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_ClientDetails_Users" FromRole="ClientDetails" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="ContractCategories">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+          </Key>
+          <Property Name="CategoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ContractTemplates" Relationship="Self.FK_ContractTemplates_Categories" FromRole="ContractCategories" ToRole="ContractTemplates" />
+        </EntityType>
+        <EntityType Name="ContractHistory">
+          <Key>
+            <PropertyRef Name="HistoryId" />
+          </Key>
+          <Property Name="HistoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ContractId" Type="Int32" Nullable="false" />
+          <Property Name="ChangedBy" Type="Int32" Nullable="false" />
+          <Property Name="ChangeDate" Type="DateTime" Precision="3" />
+          <Property Name="ChangeDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="OldData" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="NewData" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ClientContracts" Relationship="Self.FK_ContractHistory_ClientContracts" FromRole="ContractHistory" ToRole="ClientContracts" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_ContractHistory_Users" FromRole="ContractHistory" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="ContractTemplates">
+          <Key>
+            <PropertyRef Name="TemplateId" />
+          </Key>
+          <Property Name="TemplateId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TemplateName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedAt" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="CategoryId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ClientContracts" Relationship="Self.FK_ClientContracts_ContractTemplates" FromRole="ContractTemplates" ToRole="ClientContracts" />
+          <NavigationProperty Name="ContractCategories" Relationship="Self.FK_ContractTemplates_Categories" FromRole="ContractTemplates" ToRole="ContractCategories" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_ContractTemplates_Users" FromRole="ContractTemplates" ToRole="Users" />
+          <NavigationProperty Name="TemplateFields" Relationship="Self.FK_TemplateFields_ContractTemplates" FromRole="ContractTemplates" ToRole="TemplateFields" />
+        </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="RoleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_Users_Roles" FromRole="Roles" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="TemplateFields">
+          <Key>
+            <PropertyRef Name="FieldId" />
+          </Key>
+          <Property Name="FieldId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TemplateId" Type="Int32" Nullable="false" />
+          <Property Name="FieldName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FieldLabel" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FieldType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsRequired" Type="Boolean" />
+          <Property Name="DefaultValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OrderIndex" Type="Int32" />
+          <Property Name="ValidationPattern" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ContractTemplates" Relationship="Self.FK_TemplateFields_ContractTemplates" FromRole="TemplateFields" ToRole="ContractTemplates" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PasswordSalt" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FullName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RoleId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+          <Property Name="LastLogin" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" />
+          <NavigationProperty Name="ClientContracts" Relationship="Self.FK_ClientContracts_Client" FromRole="Users" ToRole="ClientContracts" />
+          <NavigationProperty Name="ClientContracts1" Relationship="Self.FK_ClientContracts_Lawyer" FromRole="Users" ToRole="ClientContracts" />
+          <NavigationProperty Name="ClientDetails" Relationship="Self.FK_ClientDetails_Users" FromRole="Users" ToRole="ClientDetails" />
+          <NavigationProperty Name="ContractHistory" Relationship="Self.FK_ContractHistory_Users" FromRole="Users" ToRole="ContractHistory" />
+          <NavigationProperty Name="ContractTemplates" Relationship="Self.FK_ContractTemplates_Users" FromRole="Users" ToRole="ContractTemplates" />
+          <NavigationProperty Name="Roles" Relationship="Self.FK_Users_Roles" FromRole="Users" ToRole="Roles" />
+        </EntityType>
+        <Association Name="FK_ClientContracts_Client">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="ClientContracts" Type="Self.ClientContracts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="ClientContracts">
+              <PropertyRef Name="ClientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ClientContracts_ContractTemplates">
+          <End Role="ContractTemplates" Type="Self.ContractTemplates" Multiplicity="1" />
+          <End Role="ClientContracts" Type="Self.ClientContracts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContractTemplates">
+              <PropertyRef Name="TemplateId" />
+            </Principal>
+            <Dependent Role="ClientContracts">
+              <PropertyRef Name="TemplateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ClientContracts_Lawyer">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="ClientContracts" Type="Self.ClientContracts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="ClientContracts">
+              <PropertyRef Name="LawyerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ContractHistory_ClientContracts">
+          <End Role="ClientContracts" Type="Self.ClientContracts" Multiplicity="1" />
+          <End Role="ContractHistory" Type="Self.ContractHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClientContracts">
+              <PropertyRef Name="ContractId" />
+            </Principal>
+            <Dependent Role="ContractHistory">
+              <PropertyRef Name="ContractId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ClientDetails_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="ClientDetails" Type="Self.ClientDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="ClientDetails">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ContractTemplates_Categories">
+          <End Role="ContractCategories" Type="Self.ContractCategories" Multiplicity="1" />
+          <End Role="ContractTemplates" Type="Self.ContractTemplates" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContractCategories">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="ContractTemplates">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ContractHistory_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="ContractHistory" Type="Self.ContractHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="ContractHistory">
+              <PropertyRef Name="ChangedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ContractTemplates_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="ContractTemplates" Type="Self.ContractTemplates" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="ContractTemplates">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TemplateFields_ContractTemplates">
+          <End Role="ContractTemplates" Type="Self.ContractTemplates" Multiplicity="1" />
+          <End Role="TemplateFields" Type="Self.TemplateFields" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContractTemplates">
+              <PropertyRef Name="TemplateId" />
+            </Principal>
+            <Dependent Role="TemplateFields">
+              <PropertyRef Name="TemplateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Roles">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ClientContracts" EntityType="Self.ClientContracts" />
+          <EntitySet Name="ClientDetails" EntityType="Self.ClientDetails" />
+          <EntitySet Name="ContractCategories" EntityType="Self.ContractCategories" />
+          <EntitySet Name="ContractHistory" EntityType="Self.ContractHistory" />
+          <EntitySet Name="ContractTemplates" EntityType="Self.ContractTemplates" />
+          <EntitySet Name="Roles" EntityType="Self.Roles" />
+          <EntitySet Name="TemplateFields" EntityType="Self.TemplateFields" />
+          <EntitySet Name="Users" EntityType="Self.Users" />
+          <AssociationSet Name="FK_ClientContracts_Client" Association="Self.FK_ClientContracts_Client">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="ClientContracts" EntitySet="ClientContracts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClientContracts_ContractTemplates" Association="Self.FK_ClientContracts_ContractTemplates">
+            <End Role="ContractTemplates" EntitySet="ContractTemplates" />
+            <End Role="ClientContracts" EntitySet="ClientContracts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClientContracts_Lawyer" Association="Self.FK_ClientContracts_Lawyer">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="ClientContracts" EntitySet="ClientContracts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ContractHistory_ClientContracts" Association="Self.FK_ContractHistory_ClientContracts">
+            <End Role="ClientContracts" EntitySet="ClientContracts" />
+            <End Role="ContractHistory" EntitySet="ContractHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClientDetails_Users" Association="Self.FK_ClientDetails_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="ClientDetails" EntitySet="ClientDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ContractTemplates_Categories" Association="Self.FK_ContractTemplates_Categories">
+            <End Role="ContractCategories" EntitySet="ContractCategories" />
+            <End Role="ContractTemplates" EntitySet="ContractTemplates" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ContractHistory_Users" Association="Self.FK_ContractHistory_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="ContractHistory" EntitySet="ContractHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ContractTemplates_Users" Association="Self.FK_ContractTemplates_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="ContractTemplates" EntitySet="ContractTemplates" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TemplateFields_ContractTemplates" Association="Self.FK_TemplateFields_ContractTemplates">
+            <End Role="ContractTemplates" EntitySet="ContractTemplates" />
+            <End Role="TemplateFields" EntitySet="TemplateFields" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Roles" Association="Self.FK_Users_Roles">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище ModelContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="ClientContracts">
+            <EntityTypeMapping TypeName="Model.ClientContracts">
+              <MappingFragment StoreEntitySet="ClientContracts">
+                <ScalarProperty Name="ContractId" ColumnName="ContractId" />
+                <ScalarProperty Name="TemplateId" ColumnName="TemplateId" />
+                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+                <ScalarProperty Name="LawyerId" ColumnName="LawyerId" />
+                <ScalarProperty Name="ContractData" ColumnName="ContractData" />
+                <ScalarProperty Name="ContractNumber" ColumnName="ContractNumber" />
+                <ScalarProperty Name="ContractDate" ColumnName="ContractDate" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ClientDetails">
+            <EntityTypeMapping TypeName="Model.ClientDetails">
+              <MappingFragment StoreEntitySet="ClientDetails">
+                <ScalarProperty Name="ClientDetailId" ColumnName="ClientDetailId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="PassportNumber" ColumnName="PassportNumber" />
+                <ScalarProperty Name="PassportIssuedBy" ColumnName="PassportIssuedBy" />
+                <ScalarProperty Name="PassportIssueDate" ColumnName="PassportIssueDate" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Organization" ColumnName="Organization" />
+                <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="BankDetails" ColumnName="BankDetails" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ContractCategories">
+            <EntityTypeMapping TypeName="Model.ContractCategories">
+              <MappingFragment StoreEntitySet="ContractCategories">
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ContractHistory">
+            <EntityTypeMapping TypeName="Model.ContractHistory">
+              <MappingFragment StoreEntitySet="ContractHistory">
+                <ScalarProperty Name="HistoryId" ColumnName="HistoryId" />
+                <ScalarProperty Name="ContractId" ColumnName="ContractId" />
+                <ScalarProperty Name="ChangedBy" ColumnName="ChangedBy" />
+                <ScalarProperty Name="ChangeDate" ColumnName="ChangeDate" />
+                <ScalarProperty Name="ChangeDescription" ColumnName="ChangeDescription" />
+                <ScalarProperty Name="OldData" ColumnName="OldData" />
+                <ScalarProperty Name="NewData" ColumnName="NewData" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ContractTemplates">
+            <EntityTypeMapping TypeName="Model.ContractTemplates">
+              <MappingFragment StoreEntitySet="ContractTemplates">
+                <ScalarProperty Name="TemplateId" ColumnName="TemplateId" />
+                <ScalarProperty Name="TemplateName" ColumnName="TemplateName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="Model.Roles">
+              <MappingFragment StoreEntitySet="Roles">
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TemplateFields">
+            <EntityTypeMapping TypeName="Model.TemplateFields">
+              <MappingFragment StoreEntitySet="TemplateFields">
+                <ScalarProperty Name="FieldId" ColumnName="FieldId" />
+                <ScalarProperty Name="TemplateId" ColumnName="TemplateId" />
+                <ScalarProperty Name="FieldName" ColumnName="FieldName" />
+                <ScalarProperty Name="FieldLabel" ColumnName="FieldLabel" />
+                <ScalarProperty Name="FieldType" ColumnName="FieldType" />
+                <ScalarProperty Name="IsRequired" ColumnName="IsRequired" />
+                <ScalarProperty Name="DefaultValue" ColumnName="DefaultValue" />
+                <ScalarProperty Name="OrderIndex" ColumnName="OrderIndex" />
+                <ScalarProperty Name="ValidationPattern" ColumnName="ValidationPattern" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="Model.Users">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="PasswordSalt" ColumnName="PasswordSalt" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="LastLogin" ColumnName="LastLogin" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

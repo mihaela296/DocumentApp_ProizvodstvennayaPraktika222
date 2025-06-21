@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="8edfc46bf7e84f64942f3515840b7234" Name="Diagram1" ZoomLevel="102">
+        <EntityTypeShape EntityType="Model.ClientContracts" Width="1.5" PointX="5.25" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.ClientDetails" Width="1.5" PointX="5.25" PointY="10.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.ContractCategories" Width="1.5" PointX="7.5" PointY="10.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.ContractHistory" Width="1.5" PointX="7.5" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.ContractTemplates" Width="1.5" PointX="8.25" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Roles" Width="1.5" PointX="0.75" PointY="6.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.TemplateFields" Width="1.5" PointX="10.5" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Users" Width="1.5" PointX="3" PointY="5.25" IsExpanded="true" />
+        <AssociationConnector Association="Model.FK_ClientContracts_Client" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_ClientContracts_ContractTemplates" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_ClientContracts_Lawyer" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_ContractHistory_ClientContracts" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_ClientDetails_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_ContractTemplates_Categories" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_ContractHistory_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_ContractTemplates_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_TemplateFields_ContractTemplates" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_Users_Roles" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
