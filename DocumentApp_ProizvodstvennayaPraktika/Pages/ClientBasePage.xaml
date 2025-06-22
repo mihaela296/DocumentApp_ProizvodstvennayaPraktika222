@@ -20,6 +20,9 @@
                FontSize="24" FontWeight="Bold" Foreground="#2C3E50"
                Margin="0 0 0 20" HorizontalAlignment="Center"/>
 
+        <Button x:Name="BtnLogOut" Content="Выйти из аккаунта" Style="{StaticResource ButtonStyle}" 
+                HorizontalAlignment="Right" VerticalAlignment="Top" Click="BtnLogOut_Click" />
+
         <!-- Панель управления -->
         <Border Grid.Row="1" Background="White" CornerRadius="5" Padding="10"
             BorderBrush="#BDC3C7" BorderThickness="1">

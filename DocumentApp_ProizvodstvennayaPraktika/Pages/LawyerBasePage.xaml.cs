@@ -68,5 +68,13 @@ namespace DocumentApp_ProizvodstvennayaPraktika.Pages
             var window = new ContractManagementWindow();
             window.ShowDialog();
         }
+
+        private void BtnLogOut_Click(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show($"Вы уверенны, что хотите выйти из аккаунта?", "Внимание!", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            {
+                NavigationService.Navigate(new AuthorizationPage());
+            }
+        }
     }
 }

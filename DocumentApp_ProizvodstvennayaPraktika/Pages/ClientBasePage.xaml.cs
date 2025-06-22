@@ -241,6 +241,14 @@ namespace DocumentApp_ProizvodstvennayaPraktika.Pages
         {
             FillContract_Click(sender, e);
         }
+
+        private void BtnLogOut_Click(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show($"Вы уверенны, что хотите выйти из аккаунта?", "Внимание!", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            {
+                NavigationService.Navigate(new AuthorizationPage());
+            }
+        }
     }
 
     public class SelectTemplateDialog : Window

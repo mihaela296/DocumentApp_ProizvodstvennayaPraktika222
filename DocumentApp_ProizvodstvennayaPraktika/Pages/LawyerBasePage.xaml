@@ -28,6 +28,8 @@
                         Margin="5" Click="ManageClients_Click"/>
                 <Button Content="Все договоры" Style="{StaticResource ButtonStyle}" 
                         Margin="5" Click="ViewAllContracts_Click"/>
+                <Button x:Name="BtnLogOut" Content="Выйти из аккаунта" Style="{StaticResource ButtonStyle}" 
+        HorizontalAlignment="Right" VerticalAlignment="Top" Click="BtnLogOut_Click" />
             </StackPanel>
         </Border>
 
