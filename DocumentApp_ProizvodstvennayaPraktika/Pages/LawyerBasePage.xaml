@@ -12,6 +12,7 @@
         <ResourceDictionary Source="../StyleDictionary.xaml"/>
     </Page.Resources>
 
+    
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
