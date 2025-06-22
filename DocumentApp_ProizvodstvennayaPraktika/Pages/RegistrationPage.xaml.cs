@@ -147,5 +147,10 @@ namespace DocumentApp_ProizvodstvennayaPraktika.Pages
         {
             Registrate();
         }
+
+        private void Hyperlink_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new AuthorizationPage());
+        }
     }
 }

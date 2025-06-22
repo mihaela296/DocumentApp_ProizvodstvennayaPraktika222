@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:DocumentApp_ProizvodstvennayaPraktika.Pages"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="550" d:DesignWidth="800"
       Title="RegistrationPage" 
       Style="{StaticResource PageStyle}"
       >
@@ -28,6 +28,12 @@
             <Label Content="Повторите пароль" Style="{StaticResource LabelStyle}" HorizontalAlignment="Left" />
             <PasswordBox x:Name="PbPasswordCheck" Style="{StaticResource PasswordBoxStyle}" />
             <Button x:Name="BtnRegister" Content="Зарегистрироваться" Style="{StaticResource ButtonStyle}" Click="BtnRegister_Click" />
+            <TextBlock Style="{StaticResource LinkTextBlockStyle}">
+                Уже зарегестрированы? 
+                <Hyperlink Style="{StaticResource HyperlinkStyle}" TextDecorations="Underline" Click="Hyperlink_Click"  >
+                    Войдите
+                </Hyperlink>
+            </TextBlock>
         </StackPanel>
     </Grid>
 </Page>
