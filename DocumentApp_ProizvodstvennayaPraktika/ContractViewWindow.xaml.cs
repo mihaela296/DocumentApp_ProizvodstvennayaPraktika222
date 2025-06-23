@@ -199,7 +199,7 @@ namespace DocumentApp_ProizvodstvennayaPraktika
                         {
                             // Устанавливаем шрифт для всего документа
                             document.Content.Font.Name = "Times New Roman";
-                            document.Content.Font.Size = 12;
+                            document.Content.Font.Size = 14;
 
                             // Получаем данные
                             var contractData = JsonConvert.DeserializeObject<Dictionary<string, string>>(
