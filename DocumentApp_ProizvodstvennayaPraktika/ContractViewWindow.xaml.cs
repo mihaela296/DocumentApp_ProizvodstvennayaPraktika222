@@ -1,14 +1,15 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Runtime.InteropServices; // Для Marshal.ReleaseComObject
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
-using Word = Microsoft.Office.Interop.Word;
-using System.Runtime.InteropServices; // Для Marshal.ReleaseComObject
+using Newtonsoft.Json;
 using Newtonsoft.Json; // Для работы с JSON-данными договора
+using Word = Microsoft.Office.Interop.Word;
 
 namespace DocumentApp_ProizvodstvennayaPraktika
 {
@@ -179,7 +180,6 @@ namespace DocumentApp_ProizvodstvennayaPraktika
         {
             try
             {
-                // Диалог сохранения файла
                 var saveFileDialog = new Microsoft.Win32.SaveFileDialog
                 {
                     Filter = "Word Documents (*.docx)|*.docx",
@@ -191,51 +191,66 @@ namespace DocumentApp_ProizvodstvennayaPraktika
                 if (saveFileDialog.ShowDialog() == true)
                 {
                     string filePath = saveFileDialog.FileName;
-
-                    // Создаем объект Word
                     Word.Application wordApp = new Word.Application();
                     try
                     {
                         Word.Document document = wordApp.Documents.Add();
                         try
                         {
-                            // Заголовок
-                            Word.Paragraph title = document.Paragraphs.Add();
-                            title.Range.Text = _contract.ContractTemplates.TemplateName;
-                            title.Range.Font.Bold = 1;
-                            title.Range.Font.Size = 16;
-                            title.Format.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter;
-                            title.Range.InsertParagraphAfter();
+                            // Устанавливаем шрифт для всего документа
+                            document.Content.Font.Name = "Times New Roman";
+                            document.Content.Font.Size = 12;
 
-                            // Информация о договоре
-                            Word.Paragraph info = document.Paragraphs.Add();
-                            info.Range.Text = $"Номер: {_contract.ContractNumber}\nДата: {_contract.ContractDate:dd.MM.yyyy}\nСтатус: {_contract.Status}";
-                            info.Format.SpaceAfter = 10;
-                            info.Range.InsertParagraphAfter();
+                            // Получаем данные
+                            var contractData = JsonConvert.DeserializeObject<Dictionary<string, string>>(
+                                _contract.ContractData ?? "{}");
 
-                            // Поля договора (если есть)
-                            if (!string.IsNullOrEmpty(_contract.ContractData))
+                            // Добавляем системные поля
+                            contractData["ContractNumber"] = _contract.ContractNumber;
+                            contractData["ContractDate"] = _contract.ContractDate.ToString();
+                            contractData["Status"] = _contract.Status;
+
+                            // Обрабатываем шаблон
+                            string templateContent = _contract.ContractTemplates.Content;
+                            foreach (var field in contractData)
                             {
-                                var fields = JsonConvert.DeserializeObject<Dictionary<string, string>>(_contract.ContractData);
-                                foreach (var field in _contract.ContractTemplates.TemplateFields)
-                                {
-                                    if (fields.ContainsKey(field.FieldName))
-                                    {
-                                        Word.Paragraph fieldParagraph = document.Paragraphs.Add();
-                                        fieldParagraph.Range.Text = $"{field.FieldLabel}: {fields[field.FieldName]}";
-                                        fieldParagraph.Range.InsertParagraphAfter();
-                                    }
-                                }
+                                templateContent = templateContent.Replace(
+                                    $"___{field.Key}___",
+                                    field.Value ?? string.Empty);
                             }
 
-                            // Основной текст
-                            Word.Paragraph content = document.Paragraphs.Add();
-                            content.Range.Text = _contract.ContractTemplates.Content;
-                            content.Format.SpaceBefore = 10;
+                            // Разбиваем на строки и обрабатываем
+                            string[] lines = templateContent.Split(
+                                new[] { "\r\n", "\n", "\r" },
+                                StringSplitOptions.None);
 
-                            // Сохраняем
+                            foreach (string line in lines)
+                            {
+                                if (string.IsNullOrWhiteSpace(line)) continue;
+
+                                Word.Paragraph paragraph = document.Paragraphs.Add();
+                                paragraph.Range.Text = line;
+
+                                // Определяем стиль для строки
+                                if (line.StartsWith("**") || line.StartsWith("ДОГОВОР") ||
+                                    Regex.IsMatch(line, @"^\d+\.\s"))
+                                {
+                                    // Заголовки - центрируем и делаем жирными
+                                    paragraph.Range.Font.Bold = 1;
+                                    paragraph.Format.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter;
+                                }
+                                else
+                                {
+                                    // Основной текст - выравниваем по левому краю
+                                    paragraph.Format.Alignment = Word.WdParagraphAlignment.wdAlignParagraphLeft;
+                                }
+
+                                paragraph.Range.InsertParagraphAfter();
+                            }
+
                             document.SaveAs2(filePath, Word.WdSaveFormat.wdFormatDocumentDefault);
-                            MessageBox.Show($"Договор сохранён:\n{filePath}", "Готово", MessageBoxButton.OK, MessageBoxImage.Information);
+                            MessageBox.Show("Договор успешно экспортирован!", "Успех",
+                                MessageBoxButton.OK, MessageBoxImage.Information);
                         }
                         finally
                         {
@@ -252,7 +267,8 @@ namespace DocumentApp_ProizvodstvennayaPraktika
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка экспорта: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Ошибка экспорта: {ex.Message}", "Ошибка",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
