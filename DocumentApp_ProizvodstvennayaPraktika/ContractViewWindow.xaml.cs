@@ -205,18 +205,35 @@ namespace DocumentApp_ProizvodstvennayaPraktika
                             var contractData = JsonConvert.DeserializeObject<Dictionary<string, string>>(
                                 _contract.ContractData ?? "{}");
 
-                            // Добавляем системные поля
-                            contractData["ContractNumber"] = _contract.ContractNumber;
-                            contractData["ContractDate"] = _contract.ContractDate.ToString();
-                            contractData["Status"] = _contract.Status;
+                            // Добавляем системные поля с проверкой на null
+                            contractData["ContractNumber"] = _contract.ContractNumber ?? "____________";
+                            contractData["ContractDate"] = _contract.ContractDate.ToString() ?? "______";
+                            contractData["Status"] = _contract.Status ?? "______";
 
                             // Обрабатываем шаблон
                             string templateContent = _contract.ContractTemplates.Content;
+
+                            // Сначала заменяем все плейсхолдеры вида ___Name___
                             foreach (var field in contractData)
                             {
+                                string value = string.IsNullOrWhiteSpace(field.Value)
+                                    ? "____________"
+                                    : field.Value;
+
                                 templateContent = templateContent.Replace(
                                     $"___{field.Key}___",
-                                    field.Value ?? string.Empty);
+                                    value);
+                            }
+
+                            // Затем заменяем оставшиеся плейсхолдеры вида _Name_
+                            var remainingPlaceholders = Regex.Matches(templateContent, @"_+[A-Za-zА-Яа-я0-9]+_+")
+                                .Cast<Match>()
+                                .Select(m => m.Value)
+                                .Distinct();
+
+                            foreach (var placeholder in remainingPlaceholders)
+                            {
+                                templateContent = templateContent.Replace(placeholder, "____________");
                             }
 
                             // Разбиваем на строки и обрабатываем
